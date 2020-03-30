@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to reaction test!</h1>
+	<center>
+	<p class="description"> Reaction test for two players. Both players choose their buttons.
+	When diodes will start lighting, press your button as fast as you can.
+	You have five attempts available. Player who was faster most times, wins.
+	Press "START" button below when you will be ready to begin the test.
+	</p>
+	<button id="startButton">START</button>
+	<span id="info"></span>
+	<p id="game" hidden=true>
+	<table>
+	<tr>
+	<td>
+	<button id="leftbulb" style="background-color: #555555">left diode off</button>
+	</td>
+	<td>
+	<button id="rightbulb" style="background-color: #555555">right diode off</button>
+	</td>
+	</tr>
+	<tr>
+	<td>
+	<span id=leftPlayerScore>0</span>
+	</td>
+	<td>
+	<span id=rightPlayerScore>0</span>
+	</td>
+	</tr>
+	</table>
+	</center>
+	<form id="scoreSubmissionForm" hidden=true action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p class=formFilling>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+	    {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p class=formFilling>{{ form.submit() }}</p>
+    </form>
+    <table class="scoreboard">
+    <tr>
+	<th class="score">Username</th>
+	<th class="score">Score</th>
+    {% for score in scores %}
+    <tr class="score">
+	<td class="score">
+    	{{ score.username }}
+	</td>
+	<td class="score">
+	{{ score.score }}
+	</td>
+    </tr>
+    {% endfor %}
+    </table>
+    {% if prev_url %}
+    <a id="tablePrev" href="{{ prev_url }}">Previous page</a>
+    {% endif %}
+    {% if next_url %}
+    <a id="tableNext" href="{{ next_url }}">Next page</a>
+    {% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+src="{{ url_for('static', filename='twoplayersscript.js') }}"></script>
+{% endblock %}

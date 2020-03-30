@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+      {% if title %}
+      <title>{{ title }} - Reaction Test</title>
+      {% else %}
+      <title>Welcome to Reaction Test</title>
+      {% endif %}
+    </head>
+    <body>
+        <div id="belka">
+		<a id="smallTitle"> Reaction Test:</a>
+		<a href="{{ url_for('index') }}">Standard mode</a>
+		<a href="{{ url_for('twoplayers') }}">2 players mode</a>
+		<a href="{{ url_for('arcademode') }}">Arcade mode</a>
+	</div>
+        <hr>
+	{% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
